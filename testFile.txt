@@ -1,0 +1,4 @@
+59fd979283b454000145f49b => id Payyne-_-
+
+https://api.pubg.com/shards/steam/players/Payyne-_-/seasons/19?filter[gamepad]=true/ranked
+https://api.pubg.com/shards/steam/players/Payyne-_-/seasons/19?filter[gamepad]=true
