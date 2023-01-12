@@ -14,11 +14,18 @@ const options = {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    getPlayerRankedData();
+    // getPlayerLastSeasonStats("steam");
+    getLeaderboardDataRanked();
+    // getPlayerRankedData();
     // getPlayerSeasonStats(playerName.value, "steam", "19");
     // getPlayerData(playerName.value, "steam");
     // checkApiStatus();
 });
+
+
+const getAllPlayerStats = async() => {
+    return;
+}
 
 const checkApiStatus = async() => {
     const url = "https://api.pubg.com/status";
@@ -41,15 +48,43 @@ const getPlayerData = async(playerName, platform) => {
     return (datas.data[0].id);
 };
 
+const getPlayerLastSeasonStats = async(platform) => {
+    const lastSeasonId = await getLastSeason();
+    const playerId = await getPlayerData(playerName.value, platform);
+    const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}?filter[gamepad]=false`;
+    const response = await fetch(url, options);
+    const data = await response.json();
+    console.log(data);
+}
+
 const getPlayerRankedData = async() => {
     const platform = "steam";
     const lastSeasonId = await getLastSeason();
-    console.log("lastSeasonId: " + lastSeasonId);
     const playerId = await getPlayerData(playerName.value, platform);
     const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}/ranked`;
     const response = await fetch(url, options);
     const data = await response.json();
     console.log(data);
+}
+
+const getLeaderboardDataRanked = async() => {
+    const option = {
+        method: 'GET',
+        headers: {
+            Accept: "*/*",
+            Authorization: authorization
+        },
+    }
+    const platformRegion =  "pc-eu";
+    const gameMode = "ranked";
+    const currentSeasonId = await getLastSeason();
+    const url = `https://api.pubg.com/shards/${platformRegion}/leaderboards/%7B${currentSeasonId}%7D/%7B${gameMode}%7D`;
+    await fetch(url, option)
+    .then((response) => {
+        response.json();
+        console.log(response);
+    })
+    .catch(error => console.log(error));
 }
 
 const getListSeasons = async() => {
@@ -73,21 +108,4 @@ const getLastSeason = async() => {
         }
     }
     return (res);
-}
-
-const getPlayerSeasonStats = async(playerName, platform, season) => {
-    const url = `https://api.pubg.com/shards/${platform}/players/${playerName}/seasons/${season}?filter[gamepad]=true`;
-    const response = await fetch(url, options);
-    const data = await response.json();
-    console.log(data);
-}
-
-function getLeaderboardData(platformRegion, seasonId, gameMode) {
-    const url = `https://api.pubg.com/shards/${platformRegion}/leaderboards/${seasonId}/${gameMode}`;
-    fetch(url, options)
-    .then((response) => {
-        response.json();
-        console.log(response);
-    })
-    .catch(error => console.log(error));
 }
