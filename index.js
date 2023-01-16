@@ -43,7 +43,7 @@ export const getPlayerMasteryWeapon = async(platform) => {
     return (data);
 }
 
-export const getLeaderboardDataByGameMod = async(platformRegion, gameMode) => {
+export const getLeaderboardDataByGameMod = async(platformRegion) => {
     //Need to do some fix cannot get in json response
     const option = {
         method: 'GET',
@@ -52,6 +52,7 @@ export const getLeaderboardDataByGameMod = async(platformRegion, gameMode) => {
             Authorization: authorization
         },
     }
+    const gameMode = "squad";
     const currentSeasonId = await getLastSeason();
     const url = `https://api.pubg.com/shards/${platformRegion}/leaderboards/${currentSeasonId}/${gameMode}`;
     const response = await fetch(url, option);
