@@ -12,14 +12,13 @@ const options = {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // getPlayerMasteryWeapon("steam");
-    getPlayerRankedData('steam');
+    getPlayerMasteryWeapon("steam");
     // checkApiStatus();
 });
 
 export const getPlayerLastSeasonStats = async(platform) => {
     const lastSeasonId = await getLastSeason();
-    const playerId = await getPlayerData(playerName.value, platform);
+    const playerId = await getPlayerDataId(playerName.value, platform);
     const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}?filter[gamepad]=false`;
     const response = await fetch(url, options);
     const data = await response.json();
@@ -28,7 +27,6 @@ export const getPlayerLastSeasonStats = async(platform) => {
 
 export const getPlayerRankedData = async(platform) => {
     const lastSeasonId = await getLastSeason();
-    console.log("lastSeasonId: " + lastSeasonId);
     const playerId = await getPlayerDataId(playerName.value, platform);
     const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}/ranked`;
     const response = await fetch(url, options);
@@ -45,7 +43,7 @@ export const getPlayerMasteryWeapon = async(platform) => {
     return (data);
 }
 
-export const getLeaderboardDataByGameMod = async(platformRegion, gameMode) => {
+export const getLeaderboardDataByGameMod = async(platformRegion, gameMod) => {
     //Need to do some fix cannot get in json response
     const option = {
         method: 'GET',
@@ -68,6 +66,12 @@ export const checkApiStatus = async() => {
     return (data);
 }
 
+export function getPlayerId(stringId) {
+    let index = stringId.indexOf('.');  
+    let res = stringId.substring(index + 1);
+    return (res);
+}
+
 export const getListSeasons = async() => {
     const url="https://api.pubg.com/shards/steam/seasons";
     const response = await fetch(url, options);
@@ -83,9 +87,12 @@ export const getLastSeason = async() => {
     const response = await fetch(url, options);
     const datas = await response.json();
     let res = "";
-    for await (let elem of datas.data) {
+    for (elem of datas.data) {
         if (elem.id.includes("pc") && elem.id.includes("21")) {
             res = elem.id;
+        }
+        else if (res && !elem.id.includes("pc")) {
+            return (res);
         }
     }
     return (res);
@@ -97,12 +104,3 @@ export const getPlayerDataId = async(playerName, platform) => {
     const datas = await response.json();
     return (datas.data[0].id);
 };
-
-/*
-<h1>Pubg tracker</h1>
-    <form id="form">
-        <input id="pseudoPubg" name="pseudo" type="text" placeholder="Search players">
-        <button type="submit">Valid</button>
-    </form>
-    <script src=""></script>
-*/

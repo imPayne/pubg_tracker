@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
-import { PlayerContext } from '../context/playerContext';
+import { PlayerContext } from '../../context/playerContext';
 import { useContext, useState } from 'react'
 import { Input, Button, Heading, Box, Container } from '@chakra-ui/react'
 
 const InputPlayerName = () => {
     const playerContext = useContext(PlayerContext);
-
     return (
         <>
     <Container mt={25}>
-        <Box 
+        <Box
             bgImage="url('/images/pubg.jpg')"
-            gPosition="center"
+            bgPosition="center"
             bgRepeat="no-repeat"
         />
         <Heading>Pubg tracker</Heading>
