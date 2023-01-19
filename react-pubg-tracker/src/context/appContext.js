@@ -1,20 +1,21 @@
 import { createContext, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from '../App';
+import StatsPlayer from '../routes/statsPlayer';
+import { PlayerProvider } from './playerContext';
 
 export const AppContext = createContext(null)
 
 export function AppProvider() {
   
   const router = createBrowserRouter([
-    // {
-    //   path: '/user/' + playerName,
-    //   element: //composant stat joueur
-    // },
+    {
+      path: '/user/:playerName',
+      element: <StatsPlayer />
+    },
     {
       path: '/',
       element: <App />
-      
     },
     // {
     //   path: '/user/' + playerName + '/weapon_mastery',
@@ -23,8 +24,10 @@ export function AppProvider() {
   ])
 
   return (
-    <AppContext.Provider value={}>
-      <RouterProvider router={router} />
+    <AppContext.Provider value={""}>
+        <PlayerProvider >
+            <RouterProvider router={router} />
+        </PlayerProvider >
     </AppContext.Provider>
-  )
+  );
 }

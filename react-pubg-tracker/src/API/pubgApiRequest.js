@@ -10,87 +10,126 @@ const options = {
     },
 }
 
-// form.addEventListener('submit', (e) => {
-//     e.preventDefault();
-//     // getPlayerMasteryWeapon("steam");
-//     getPlayerRankedData('steam');
-//     // checkApiStatus();
-// });
+const API = {
 
-export const getPlayerLastSeasonStats = async(platform) => {
-    const lastSeasonId = await getLastSeason();
-    const playerId = await getPlayerDataId(playerName.value, platform);
-    const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}?filter[gamepad]=false`;
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return (data);
-}
-
-export const getPlayerRankedData = async(platform) => {
-    const lastSeasonId = await getLastSeason();
-    console.log("lastSeasonId: " + lastSeasonId);
-    const playerId = await getPlayerDataId(playerName.value, platform);
-    const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}/ranked`;
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return (data);
-}
-
-export const getPlayerMasteryWeapon = async(platform) => {
-    const playerId = await getPlayerDataId(playerName.value, platform);
-    const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/weapon_mastery`;
-    const response = await fetch(url, options);
-    const data = await response.json();
-    console.log(data);
-    return (data);
-}
-
-export const getLeaderboardDataByGameMod = async(platformRegion, gameMode) => {
-    //Need to do some fix cannot get in json response
-    const currentSeasonId = await getLastSeason();
-    const url = `https://api.pubg.com/shards/${platformRegion}/leaderboards/${currentSeasonId}/${gameMode}`;
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return (data);
-}
-
-// basic and useful request 
-export const checkApiStatus = async() => {
-    const url = "https://api.pubg.com/status";
-    const response = await fetch(url, options);
-    const data = await response.json();
-    return (data);
-}
-
-export const getListSeasons = async() => {
-    const url="https://api.pubg.com/shards/steam/seasons";
-    const response = await fetch(url, options);
-    const datas = await response.json();
-    datas.data.forEach(elem => {
-        console.log(elem.id);
-    });
-    return (datas);
-}
-
-export const getLastSeason = async() => {
-    const url="https://api.pubg.com/shards/steam/seasons";
-    const response = await fetch(url, options);
-    const datas = await response.json();
-    let res = "";
-    for await (let elem of datas.data) {
-        if (elem.id.includes("pc") && elem.id.includes("21")) {
-            res = elem.id;
+    getLastSeason: async() => {
+        try {
+        const url="https://api.pubg.com/shards/steam/seasons";
+        const response = await fetch(url, options);
+        const datas = await response.json();
+        let res = "";
+        for await (let elem of datas.data) {
+            if (elem.id.includes("pc") && elem.id.includes("21")) {
+                res = elem.id;
+            }
         }
+        return (res);
+        } catch (err) {
+            console.error(err.message);
+            return "";
+        }
+    },
+
+    getPlayerLastSeasonStats: async(platform) => {
+        try {
+            const lastSeasonId = await API.getLastSeason();
+            const playerId = await API.getPlayerDataId(playerName.value, platform);
+            const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}?filter[gamepad]=false`;
+            const response = await fetch(url, options);
+            return (response.json());
+        }catch (err) {
+            console.error(err.message);
+            return [];
+        }
+    },
+    
+    getPlayerRankedData: async(platform, playerName) => {
+        try {
+        if (!platform || !playerName)
+            return ("");
+        const lastSeasonId = await API.getLastSeason();
+        const playerId = await API.getPlayerDataId(playerName, platform);
+        const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}/ranked`;
+        const response = await fetch(url, options);
+        const data = await response.json();
+        return (data);
+        } catch (err) {
+            console.error(err.message);
+            return([]);
+        }
+    },
+    
+    getPlayerMasteryWeapon: async(platform, playerName) => {
+        try {
+        const playerId = await API.getPlayerDataId(playerName, platform);
+        const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/weapon_mastery`;
+        const response = await fetch(url, options);
+        const data = await response.json();
+        console.log(data);
+        return (data);
+        } catch (err) {
+            console.error(err.message);
+            return([]);
+        }
+    },
+    
+    getLeaderboardDataByGameMod: async(platformRegion, gameMode) => {
+        try {
+        //Need to do some fix cannot get in json response
+        const currentSeasonId = await API.getLastSeason();
+        const url = `https://api.pubg.com/shards/${platformRegion}/leaderboards/${currentSeasonId}/${gameMode}`;
+        const response = await fetch(url, options);
+        const data = await response.json();
+        return (data);
+        } catch (err) {
+            console.error(err.message);
+            return([]);
+        }
+    },
+    
+    // basic and useful request 
+    checkApiStatus: async() => {
+        try {
+        const url = "https://api.pubg.com/status";
+        const response = await fetch(url, options);
+        const data = await response.json();
+        return (data);
+        } catch (err) {
+            console.error(err.message);
+            return "";
+        }
+    },
+    
+    getListSeasons: async() => {
+        try {
+        const url="https://api.pubg.com/shards/steam/seasons";
+        const response = await fetch(url, options);
+        const datas = await response.json();
+        datas.data.forEach(elem => {
+            console.log(elem.id);
+        });
+        return (datas);
+        } catch (err) {
+            console.error(err.message);
+            return([]);
+        }
+    },
+    
+    getPlayerDataId: async(playerName, platform) => {
+        try {
+        const url = `https://api.pubg.com/shards/${platform}/players?filter[playerNames]=${playerName}`;
+        const response = await fetch(url, options);
+        const datas = await response.json();
+        return (datas.data[0].id);
+        } catch (err) {
+            console.error(err.message);
+            return ("");
+        }
+
     }
-    return (res);
 }
 
-export const getPlayerDataId = async(playerName, platform) => {
-    const url = `https://api.pubg.com/shards/${platform}/players?filter[playerNames]=${playerName}`;
-    const response = await fetch(url, options);
-    const datas = await response.json();
-    return (datas.data[0].id);
-};
+export default API;
 
 /*
 <h1>Pubg tracker</h1>
