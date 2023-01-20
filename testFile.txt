@@ -2,3 +2,7 @@
 
 https://api.pubg.com/shards/steam/players/Payyne-_-/seasons/19?filter[gamepad]=true/ranked
 https://api.pubg.com/shards/steam/players/Payyne-_-/seasons/19?filter[gamepad]=true
+
+
+https://www.pubgrank.org/img/telemary/Item_Weapon_HK416_C.png
+link image for weapon mastery
