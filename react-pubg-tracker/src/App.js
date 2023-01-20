@@ -10,12 +10,12 @@ function App() {
     const navigate = useNavigate();
     const playerContext = useContext(PlayerContext);
     return (
-        
     <Container mt={25}>
         <Box mt={40} p={14} borderRadius={7} backgroundColor='#F0F0F0'>
             <Heading>Pubg tracker</Heading>
             <form id='playerName_form' onSubmit={(e) => {
                 e.preventDefault();
+                playerContext.setRankedStats([]);
                 API.getPlayerRankedData('steam', playerContext.playerName).then((data) => {
                     playerContext.setRankedStats(data);
                 });

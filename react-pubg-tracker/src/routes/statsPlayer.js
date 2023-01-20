@@ -1,12 +1,12 @@
-import { PlayerProvider } from '../context/playerContext';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PlayerContext } from '../context/playerContext';
 import { useContext, useState, useEffect } from 'react'
-import { Center, Flex, Input, Button, Heading, Box, Container, Text, SliderProvider, Image } from '@chakra-ui/react'
+import { Link, Center, Flex, Input, Button, Heading, Box, Container, Text, SliderProvider, Image } from '@chakra-ui/react'
 
 function StatsPlayer() {
     const playerContext = useContext(PlayerContext);
-    if (playerContext.rankedStats.data) {
+    const navigate = useNavigate();
+    if (playerContext.rankedStats.data && playerContext.playerName) {
         return (
             <Container>
                 <Center>
@@ -21,7 +21,6 @@ function StatsPlayer() {
                                     <Image src={"/images/" + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier + ".png"}></Image>
                                 </Box>
                             </Center>
-
                             <Text fontSize='xl'>Rank:
                                 &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier} {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier}</Text>
                             <Text fontSize='xl' mt={3}>Rating:
@@ -39,8 +38,41 @@ function StatsPlayer() {
                                 &nbsp;{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].damageDealt /
                                 playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].roundsPlayed).toFixed()}</Text>
                         </Box>
+                        <Center>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                navigate(`/user/weapon_mastery/${playerContext.playerName}`);
+                                }}>
+                                <Button mt={-1.5} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
+                            </form>
+                        </Center>
                     </Box>
+                    
                 </Center>
+            </Container>
+        );
+    }
+    else if (!playerContext.rankedStats.data && !playerContext.playerName) {
+        return (
+            <Container mt={25}>
+                <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
+                    <Heading pl={28}>Pubg Stats:</Heading>
+                    <Heading size="md" mt={3}>{playerContext.playerName}</Heading>
+                    <Text fontSize='xl' mt={3}>Rank: No Data</Text>
+                    <Text fontSize='xl' mt={3}>Rating: No Data</Text>
+                    <Text fontSize='xl' mt={3}>win%: No Data</Text>
+                    <Text fontSize='xl' mt={3}>kills: No Data</Text>
+                    <Text fontSize='xl' mt={3}>deaths: No Data</Text>
+                    <Text fontSize='xl' mt={3} mb={3}>K/D: No Data</Text>
+                    <Center>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            navigate(`/`);
+                        }}>
+                            <Button mt={-1.5} colorScheme='orange' size='md' type="submit">Refresh Data</Button>
+                        </form>
+                    </Center>
+                </Box>
             </Container>
         );
     }
@@ -50,12 +82,20 @@ function StatsPlayer() {
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading pl={28}>Pubg Stats:</Heading>
                     <Heading size="md" mt={3}>{playerContext.playerName}</Heading>
-                    <Text>Rank: Data loading...</Text>
-                    <Text>Rating: Data loading...</Text>
-                    <Text>win%: Data loading...</Text>
-                    <Text>kills: Data loading...</Text>
-                    <Text>deaths: Data loading...</Text>
-                    <Text>K/D: Data loading...</Text>
+                    <Text fontSize='xl' mt={3}>Rank: Data loading...</Text>
+                    <Text fontSize='xl' mt={3}>Rating: Data loading...</Text>
+                    <Text fontSize='xl' mt={3}>win%: Data loading...</Text>
+                    <Text fontSize='xl' mt={3}>kills: Data loading...</Text>
+                    <Text fontSize='xl' mt={3}>deaths: Data loading...</Text>
+                    <Text fontSize='xl' mt={3} mb={3}>K/D: Data loading...</Text>
+                    <Center>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            navigate(`/user/weapon_mastery/${playerContext.playerName}`);
+                        }}>
+                            <Button mt={-1.5} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
+                        </form>
+                    </Center>
                 </Box>
             </Container>
         );
