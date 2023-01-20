@@ -1,8 +1,7 @@
 import './App.css';
-import { PlayerProvider } from './context/playerContext';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PlayerContext } from './context/playerContext';
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Input, Button, Heading, Box, Container } from '@chakra-ui/react'
 import API from "./API/pubgApiRequest";
 

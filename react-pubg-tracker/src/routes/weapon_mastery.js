@@ -5,25 +5,62 @@ import { Link, Center, Flex, Input, Button, Heading, Box, Container, Text, Slide
 import API from "../API/pubgApiRequest";
 
 function Weapon_mastery() {
+    const navigate = useNavigate();
     const playerContext = useContext(PlayerContext);
-    API.getPlayerMasteryWeapon("steam", playerContext.playerName).then((data) => {
-        playerContext.setWeaponMastery(data);
-    });
-    if (playerContext.WeaponMastery.data) {
+    if (!playerContext.weaponMastery) {
+        API.getPlayerMasteryWeapon("steam", playerContext.playerName).then((data) => {
+            playerContext.setWeaponMastery(data);
+            console.log(data);
+        });
+    }
+    if (playerContext.WeaponMastery && playerContext.playerName) {
         console.log(playerContext.WeaponMastery);
         return (
-            <Container>
+            <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading size='xl' mt={3} mb={5}>{playerContext.playerName}</Heading>
+                    <Center>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            navigate(`/`);
+                        }}>
+                            <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
+                        </form>
+                    </Center>
+                </Box>
+            </Container>
+        );
+    }
+    else if (playerContext.weaponMastery === 429) {
+        return (
+            <Container mt={25}>
+                <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
+                    <Heading color='red' size='xl' mt={3} mb={5}>429 Too many request 10 req/min</Heading>
+                    <Center>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            navigate(`/`);
+                        }}>
+                            <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
+                        </form>
+                    </Center>
                 </Box>
             </Container>
         );
     }
     else {
         return (
-            <Container>
+            <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading size='xl' mt={3} mb={5}>Datas Loading...</Heading>
+                    <Center>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            navigate(`/`);
+                        }}>
+                            <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
+                        </form>
+                    </Center>
                 </Box>
             </Container>
         );

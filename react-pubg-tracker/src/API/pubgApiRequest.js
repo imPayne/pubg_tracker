@@ -16,6 +16,9 @@ const API = {
         try {
         const url="https://api.pubg.com/shards/steam/seasons";
         const response = await fetch(url, options);
+        if (response.status === 429) {
+            return (response.status);
+        }
         const datas = await response.json();
         let res = "";
         for await (let elem of datas.data) {
@@ -34,8 +37,14 @@ const API = {
         try {
             const lastSeasonId = await API.getLastSeason();
             const playerId = await API.getPlayerDataId(playerName.value, platform);
+            if (playerId === 429 || !lastSeasonId === 429) {
+                return (429);
+            }
             const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}?filter[gamepad]=false`;
             const response = await fetch(url, options);
+            if (response.status === 429) {
+                return (response.status);
+            }
             return (response.json());
         }catch (err) {
             console.error(err.message);
@@ -46,11 +55,17 @@ const API = {
     getPlayerRankedData: async(platform, playerName) => {
         try {
         if (!platform || !playerName)
-            return ("");
+            return ([]);
         const lastSeasonId = await API.getLastSeason();
         const playerId = await API.getPlayerDataId(playerName, platform);
+        if (lastSeasonId === 429 || playerId === 429) {
+            return (429);
+        }
         const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}/ranked`;
         const response = await fetch(url, options);
+        if (response.status === 429) {
+            return (response.status);
+        }
         const data = await response.json();
         return (data);
         } catch (err) {
@@ -62,10 +77,15 @@ const API = {
     getPlayerMasteryWeapon: async(platform, playerName) => {
         try {
         const playerId = await API.getPlayerDataId(playerName, platform);
+        if (playerId === 429) {
+            return (429);
+        }
         const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/weapon_mastery`;
         const response = await fetch(url, options);
+        if (response.status === 429) {
+            return (response.status);
+        }
         const data = await response.json();
-        console.log(data);
         return (data);
         } catch (err) {
             console.error(err.message);
@@ -77,8 +97,14 @@ const API = {
         try {
         //Need to do some fix cannot get in json response
         const currentSeasonId = await API.getLastSeason();
+        if (currentSeasonId === 429) {
+            return (429);
+        }
         const url = `https://api.pubg.com/shards/${platformRegion}/leaderboards/${currentSeasonId}/${gameMode}`;
         const response = await fetch(url, options);
+        if (response.status === 429) {
+            return (response.status);
+        }
         const data = await response.json();
         return (data);
         } catch (err) {
@@ -92,6 +118,9 @@ const API = {
         try {
         const url = "https://api.pubg.com/status";
         const response = await fetch(url, options);
+        if (response.status === 429) {
+            return (response.status);
+        }
         const data = await response.json();
         return (data);
         } catch (err) {
@@ -104,10 +133,13 @@ const API = {
         try {
         const url="https://api.pubg.com/shards/steam/seasons";
         const response = await fetch(url, options);
+        if (response.status === 429) {
+            return (response.status);
+        }
         const datas = await response.json();
-        datas.data.forEach(elem => {
-            console.log(elem.id);
-        });
+        // datas.data.forEach(elem => {
+        //     console.log(elem.id);
+        // });
         return (datas);
         } catch (err) {
             console.error(err.message);
@@ -120,6 +152,9 @@ const API = {
         const url = `https://api.pubg.com/shards/${platform}/players?filter[playerNames]=${playerName}`;
         const response = await fetch(url, options);
         const datas = await response.json();
+        if (response.status === 429) {
+            return (response.status);
+        }
         return (datas.data[0].id);
         } catch (err) {
             console.error(err.message);
