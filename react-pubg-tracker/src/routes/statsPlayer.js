@@ -39,15 +39,22 @@ function StatsPlayer() {
                                 playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].roundsPlayed).toFixed()}</Text>
                         </Box>
                         <Center>
+                            <Flex>
                             <form onSubmit={(e) => {
                                 e.preventDefault();
                                 navigate(`/user/weapon_mastery/${playerContext.playerName}`);
-                                }}>
-                                <Button mt={-1.5} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
+                            }}>
+                                <Button m={2} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
                             </form>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                navigate(`/`);
+                            }}>
+                                <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
+                            </form>
+                            </Flex>
                         </Center>
                     </Box>
-                    
                 </Center>
             </Container>
         );
@@ -69,7 +76,7 @@ function StatsPlayer() {
                             e.preventDefault();
                             navigate(`/`);
                         }}>
-                            <Button mt={-1.5} colorScheme='orange' size='md' type="submit">Refresh Data</Button>
+                            <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
                         </form>
                     </Center>
                 </Box>
@@ -89,12 +96,20 @@ function StatsPlayer() {
                     <Text fontSize='xl' mt={3}>deaths: Data loading...</Text>
                     <Text fontSize='xl' mt={3} mb={3}>K/D: Data loading...</Text>
                     <Center>
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                            navigate(`/user/weapon_mastery/${playerContext.playerName}`);
-                        }}>
-                            <Button mt={-1.5} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
-                        </form>
+                        <Flex>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                navigate(`/user/weapon_mastery/${playerContext.playerName}`);
+                            }}>
+                                <Button m={2} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
+                            </form>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                navigate(`/`);
+                            }}>
+                                <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
+                            </form>
+                        </Flex>
                     </Center>
                 </Box>
             </Container>
