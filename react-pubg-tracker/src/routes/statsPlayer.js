@@ -2,27 +2,45 @@ import { PlayerProvider } from '../context/playerContext';
 import { Link, useNavigate } from "react-router-dom";
 import { PlayerContext } from '../context/playerContext';
 import { useContext, useState, useEffect } from 'react'
-import { Input, Button, Heading, Box, Container, Text, SliderProvider, Image } from '@chakra-ui/react'
+import { Center, Flex, Input, Button, Heading, Box, Container, Text, SliderProvider, Image } from '@chakra-ui/react'
 
 function StatsPlayer() {
     const playerContext = useContext(PlayerContext);
     if (playerContext.rankedStats.data) {
-        console.log(playerContext.rankedStats.data.attributes["squad-fpp"]);
         return (
-            <Container mt={25}>
-                <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
-                    <Heading pl={28}>Pubg Stats:</Heading>
-                    <Heading size="md" mt={3} mb={5}>{playerContext.playerName}</Heading>
-                    <Box boxSize='8rem'>
-                        <Image src={"/images/" + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier + ".png"}></Image>
+            <Container>
+                <Center>
+                    <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
+                        <Box p={7}>
+                            <Heading >Pubg Stats Ranked:</Heading>
+                            <Center>
+                                <Heading size="xl" mt={3} mb={5}>{playerContext.playerName}</Heading>
+                            </Center>
+                            <Center>
+                                <Box boxSize='10rem'>
+                                    <Image src={"/images/" + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier + ".png"}></Image>
+                                </Box>
+                            </Center>
+
+                            <Text fontSize='xl'>Rank:
+                                &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier} {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier}</Text>
+                            <Text fontSize='xl' mt={3}>Rating:
+                                &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentRankPoint} RP</Text>
+                            <Text fontSize='xl' mt={3}>win:
+                                &nbsp;{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].winRatio * 100).toFixed(2)}%</Text>
+                            <Text fontSize='xl' mt={3}>kills:
+                                &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills}</Text>
+                            <Text fontSize='xl' mt={3}>deaths:
+                                &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths}</Text>
+                            <Text fontSize='xl' mt={3}>K/D:
+                                &nbsp;{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills /
+                                playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths).toFixed(2)}</Text>
+                            <Text fontSize='xl' mt={3}>Avg Damage:
+                                &nbsp;{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].damageDealt /
+                                playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].roundsPlayed).toFixed()}</Text>
+                        </Box>
                     </Box>
-                    <Text>Rank: {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier} {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier}</Text>
-                    <Text>Rating: {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentRankPoint} RP</Text>
-                    <Text>win%: {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].winRatio * 100}</Text>
-                    <Text>kills: {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills}</Text>
-                    <Text>deaths: {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths}</Text>
-                    <Text>K/D: {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills / playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths}</Text>
-                </Box>
+                </Center>
             </Container>
         );
     }
