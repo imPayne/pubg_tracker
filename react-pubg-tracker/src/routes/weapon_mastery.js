@@ -7,14 +7,15 @@ import API from "../API/pubgApiRequest";
 function Weapon_mastery() {
     const navigate = useNavigate();
     const playerContext = useContext(PlayerContext);
-    if (!playerContext.weaponMastery) {
+    if (playerContext.weaponMastery === []) {
         API.getPlayerMasteryWeapon("steam", playerContext.playerName).then((data) => {
             playerContext.setWeaponMastery(data);
             console.log(data);
         });
     }
-    if (playerContext.WeaponMastery && playerContext.playerName) {
-        console.log(playerContext.WeaponMastery);
+    if (playerContext.weaponMastery && playerContext.playerName) {
+        console.log(playerContext.weaponMastery);
+        console.log(playerContext.playerName);
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
@@ -49,6 +50,8 @@ function Weapon_mastery() {
         );
     }
     else {
+        console.log(playerContext.playerName);
+        console.log(playerContext.weaponMastery)
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
