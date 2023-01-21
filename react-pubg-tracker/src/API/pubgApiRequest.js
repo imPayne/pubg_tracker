@@ -76,6 +76,9 @@ const API = {
     
     getPlayerMasteryWeapon: async(platform, playerName) => {
         try {
+            if (!platform || !playerName) {
+                return ([]);
+            }
         const playerId = await API.getPlayerDataId(playerName, platform);
         if (playerId === 429) {
             return (429);

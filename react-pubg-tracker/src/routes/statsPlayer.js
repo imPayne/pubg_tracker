@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PlayerContext } from '../context/playerContext';
 import { useContext } from 'react'
-import { Center, Flex, Button, Heading, Box, Container, Text, Image } from '@chakra-ui/react'
+import { Center, Flex, Button, Heading, Box, Container, Text, Image, Spinner } from '@chakra-ui/react'
 
 function StatsPlayer() {
     const playerContext = useContext(PlayerContext);
@@ -116,12 +116,12 @@ function StatsPlayer() {
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading pl={28}>Pubg Stats:</Heading>
                     <Heading size="md" mt={3}>{playerContext.playerName}</Heading>
-                    <Text fontSize='xl' mt={3}>Rank: Data loading...</Text>
-                    <Text fontSize='xl' mt={3}>Rating: Data loading...</Text>
-                    <Text fontSize='xl' mt={3}>win%: Data loading...</Text>
-                    <Text fontSize='xl' mt={3}>kills: Data loading...</Text>
-                    <Text fontSize='xl' mt={3}>deaths: Data loading...</Text>
-                    <Text fontSize='xl' mt={3} mb={3}>K/D: Data loading...</Text>
+                    <Text fontSize='xl' mt={3}>Rank: <Spinner ml={5} thickness='4px' speed='0.65s' emptyColor='#F0F0F0' color='orange' size='md' /></Text>
+                    <Text fontSize='xl' mt={3}>Rating: <Spinner ml={5} thickness='4px' speed='0.65s' emptyColor='#F0F0F0' color='orange' size='md' /></Text>
+                    <Text fontSize='xl' mt={3}>win%: <Spinner ml={5} thickness='4px' speed='0.65s' emptyColor='#F0F0F0' color='orange' size='md' /></Text>
+                    <Text fontSize='xl' mt={3}>kills: <Spinner ml={5} thickness='4px' speed='0.65s' emptyColor='#F0F0F0' color='orange' size='md' /></Text>
+                    <Text fontSize='xl' mt={3}>deaths: <Spinner ml={5} thickness='4px' speed='0.65s' emptyColor='#F0F0F0' color='orange' size='md' /></Text>
+                    <Text fontSize='xl' mt={3} mb={3}>K/D: <Spinner ml={5} thickness='4px' speed='0.65s' emptyColor='#F0F0F0' color='orange' size='md' /></Text>
                     <Center>
                         <Flex>
                             <form onSubmit={(e) => {
