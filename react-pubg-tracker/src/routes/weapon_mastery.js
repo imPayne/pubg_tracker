@@ -10,7 +10,6 @@ function Weapon_mastery() {
     if (playerContext.weaponMastery.length == 0 || !playerContext.weaponMastery) {
         API.getPlayerMasteryWeapon("steam", playerContext.playerName).then((data) => {
             playerContext.setWeaponMastery(data);
-            console.log(data);
         });
     }
     if (playerContext.weaponMastery.data && playerContext.playerName) {
@@ -18,10 +17,6 @@ function Weapon_mastery() {
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading size='xl' mt={3} mb={5}>Weapon Mastery of {playerContext.playerName}</Heading>
-                    {/* <Box>
-                        <Heading size="md" mt={3} mb={3}>{playerContext.weaponMastery.data.attributes.weaponSummaries.}</Heading>
-                    </Box> */}
-
                     <Center>
                         <form onSubmit={(e) => {
                             e.preventDefault();
@@ -73,7 +68,7 @@ function Weapon_mastery() {
 
     else {
         console.log(playerContext.playerName);
-        console.log(playerContext.weaponMastery)
+        console.log(playerContext.weaponMastery);
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>

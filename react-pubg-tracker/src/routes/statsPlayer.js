@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { PlayerContext } from '../context/playerContext';
-import { useContext } from 'react'
-import { Center, Flex, Button, Heading, Box, Container, Text, Image, Spinner } from '@chakra-ui/react'
+import { useContext } from 'react';
+import { Center, Flex, Button, Heading, Box, Container, Text, Image, Spinner, Spacer } from '@chakra-ui/react';
+import { PhoneIcon, AddIcon, WarningIcon, MoonIcon, LockIcon } from '@chakra-ui/icons';
 
 function StatsPlayer() {
     const playerContext = useContext(PlayerContext);
@@ -92,12 +93,60 @@ function StatsPlayer() {
                     <Center>
                         <Heading size="md" mt={3} color='red'>429 Too many request 10 per minute </Heading>
                     </Center>
-                    <Text fontSize='xl' mt={3}>Rank: No Data</Text>
-                    <Text fontSize='xl' mt={3}>Rating: No Data</Text>
-                    <Text fontSize='xl' mt={3}>win%: No Data</Text>
-                    <Text fontSize='xl' mt={3}>kills: No Data</Text>
-                    <Text fontSize='xl' mt={3}>deaths: No Data</Text>
-                    <Text fontSize='xl' mt={3} mb={3}>K/D: No Data</Text>
+                    <Flex>
+                        <Center>
+                            <Text fontSize='xl' mt={3}>Rank: Too many request!</Text>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <LockIcon w={8} h={8} color="red.500"></LockIcon>
+                        </Center>
+                    </Flex>
+                    <Flex>
+                        <Center>
+                            <Text fontSize='xl' mt={3}>Rating: Too many request!  </Text>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <LockIcon w={8} h={8} color="red.500"></LockIcon>
+                        </Center>
+                    </Flex>
+                    <Flex>
+                        <Center>
+                            <Text fontSize='xl' mt={3}>win%: Too many request!</Text>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <LockIcon w={8} h={8} color="red.500"></LockIcon>
+                        </Center>
+                    </Flex>
+                    <Flex>
+                        <Center>
+                            <Text fontSize='xl' mt={3}>kills: Too many request!</Text>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <LockIcon w={8} h={8} color="red.500"></LockIcon>
+                        </Center>
+                    </Flex>
+                    <Flex>
+                        <Center>
+                            <Text fontSize='xl' mt={3}>deaths: Too many request!</Text>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <LockIcon w={8} h={8} color="red.500"></LockIcon>
+                        </Center>
+                    </Flex>
+                    <Flex>
+                        <Center>
+                            <Text fontSize='xl' mt={3} mb={3}>K/D: Too many request!</Text>
+                        </Center>
+                        <Spacer />
+                        <Center>
+                            <LockIcon w={8} h={8} color="red.500"></LockIcon>
+                        </Center>
+                    </Flex>
                     <Center>
                         <form onSubmit={(e) => {
                             e.preventDefault();
