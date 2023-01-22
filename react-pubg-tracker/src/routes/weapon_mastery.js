@@ -7,6 +7,7 @@ import API from "../API/pubgApiRequest";
 function Weapon_mastery() {
     const navigate = useNavigate();
     const playerContext = useContext(PlayerContext);
+    let top3Weapons = []
     if (playerContext.weaponMastery.length === 0 && playerContext.weaponMastery !== 429 && playerContext.rankedStats && playerContext.rankedStats.data) {
         API.getPlayerMasteryWeapon(playerContext.rankedStats.data.relationships.player.data.id, "steam", playerContext.playerName).then((data) => {
             playerContext.setWeaponMastery(data);
@@ -16,14 +17,22 @@ function Weapon_mastery() {
         if (playerContext.weaponMastery.data.attributes) {
             let keysWeapon = Object.keys(playerContext.weaponMastery.data.attributes.weaponSummaries);
             let maxKill = 0;
-            let nomArme = "";
-            for (const elem of keysWeapon) {
-                if (playerContext.weaponMastery.data.attributes.weaponSummaries[elem].StatsTotal.Kills > maxKill) {
-                    maxKill = playerContext.weaponMastery.data.attributes.weaponSummaries[elem].StatsTotal.Kills;
-                    nomArme = elem;
+            let topWeapon = "";
+            while (top3Weapons.length < 3) {
+                for (let elem of keysWeapon) {
+                    if (playerContext.weaponMastery.data.attributes.weaponSummaries[elem].StatsTotal.Kills > maxKill && elem != topWeapon) {
+                        if (!top3Weapons[top3Weapons.length - 1] || (top3Weapons[top3Weapons.length - 1].name && top3Weapons[top3Weapons.length - 1].name != elem)) {
+                        maxKill = playerContext.weaponMastery.data.attributes.weaponSummaries[elem].StatsTotal.Kills;
+                        topWeapon = elem;
+                        }
+                    }
                 }
+                let index = keysWeapon.indexOf(topWeapon);
+                keysWeapon.splice(index, 1);
+                playerContext.weaponMastery.data.attributes.weaponSummaries[topWeapon].StatsTotal.name = topWeapon;
+                top3Weapons.push(playerContext.weaponMastery.data.attributes.weaponSummaries[topWeapon].StatsTotal);        
             }
-            console.log("maxKill = " + maxKill + " nom de l'arme " + nomArme);
+            console.log(top3Weapons);
         }
         return (
             <Container mt={25}>
