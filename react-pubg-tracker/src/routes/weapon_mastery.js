@@ -7,16 +7,29 @@ import API from "../API/pubgApiRequest";
 function Weapon_mastery() {
     const navigate = useNavigate();
     const playerContext = useContext(PlayerContext);
-    if (playerContext.weaponMastery.length == 0 || !playerContext.weaponMastery) {
-        API.getPlayerMasteryWeapon("steam", playerContext.playerName).then((data) => {
+    if (playerContext.weaponMastery.length === 0 && playerContext.weaponMastery !== 429 && playerContext.rankedStats && playerContext.rankedStats.data) {
+        API.getPlayerMasteryWeapon(playerContext.rankedStats.data.relationships.player.data.id, "steam", playerContext.playerName).then((data) => {
             playerContext.setWeaponMastery(data);
         });
     }
-    if (playerContext.weaponMastery.data && playerContext.playerName) {
+    if (playerContext.weaponMastery.data && playerContext.playerName && playerContext.weaponMastery !== 429) {
+        if (playerContext.weaponMastery.data.attributes) {
+            let keysWeapon = Object.keys(playerContext.weaponMastery.data.attributes.weaponSummaries);
+            let maxKill = 0;
+            let nomArme = "";
+            for (const elem of keysWeapon) {
+                if (playerContext.weaponMastery.data.attributes.weaponSummaries[elem].StatsTotal.Kills > maxKill) {
+                    maxKill = playerContext.weaponMastery.data.attributes.weaponSummaries[elem].StatsTotal.Kills;
+                    nomArme = elem;
+                }
+            }
+            console.log("maxKill = " + maxKill + " nom de l'arme " + nomArme);
+        }
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading size='xl' mt={3} mb={5}>Weapon Mastery of {playerContext.playerName}</Heading>
+                    
                     <Center>
                         <form onSubmit={(e) => {
                             e.preventDefault();
@@ -68,7 +81,8 @@ function Weapon_mastery() {
 
     else {
         console.log(playerContext.playerName);
-        console.log(playerContext.weaponMastery);
+        !playerContext.weaponMastery ? console.log("false") : console.log("true");
+        console.log(playerContext.weaponMastery.length);
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
