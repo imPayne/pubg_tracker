@@ -6,8 +6,11 @@ export function PlayerProvider ({children}) {
     const [rankedStats, setRankedStats] = useState([]);
     const [weaponMastery, setWeaponMastery] = useState([]);
     const [playerName, setPlayerName] = useState("");
+    const [savedBestWeapon, setSavedBestWeapon] = useState([]);
     return (
         <PlayerContext.Provider value={{
+            savedBestWeapon,
+            setSavedBestWeapon,
             rankedStats,
             setRankedStats,
             playerName,

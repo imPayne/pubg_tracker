@@ -3,6 +3,7 @@ import { PlayerContext } from '../context/playerContext';
 import { useContext } from 'react';
 import { Center, Flex, Button, Heading, Box, Container, Text, Image, Spinner, Spacer } from '@chakra-ui/react';
 import { PhoneIcon, AddIcon, WarningIcon, MoonIcon, LockIcon } from '@chakra-ui/icons';
+import API from "../API/pubgApiRequest";
 
 function StatsPlayer() {
     const playerContext = useContext(PlayerContext);
@@ -44,6 +45,10 @@ function StatsPlayer() {
                             <Flex>
                             <form onSubmit={(e) => {
                                 e.preventDefault();
+                                playerContext.setWeaponMastery([]);
+                                API.getPlayerMasteryWeapon(playerContext.rankedStats.data.relationships.player.data.id, "steam", playerContext.playerName).then((data) => {
+                                playerContext.setWeaponMastery(data);
+                                });
                                 navigate(`/user/weapon_mastery/${playerContext.playerName}`);
                             }}>
                                 <Button m={2} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
