@@ -29,7 +29,7 @@ function Weapon_mastery() {
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading size='xl' mt={3} mb={5}>Weapon Mastery of {playerContext.playerName}</Heading>
-                        <Box m={5} p={5} borderRadius={7} backgroundColor='#F5F5F5'>
+                        <Box m={5} p={5} borderRadius={7} backgroundColor='#F0F0F0'>
                             <Image src={"/images/weapons/" + playerContext.savedBestWeapon.weaponName + ".png"}></Image>
                         </Box>
                         <Flex>

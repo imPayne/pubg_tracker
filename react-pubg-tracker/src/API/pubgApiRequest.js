@@ -62,7 +62,7 @@ const API = {
         }
         const url = `https://api.pubg.com/shards/${platform}/players/${playerId}/seasons/${lastSeasonId}/ranked`;
         const response = await fetch(url, options);
-        if (response.status === 429) {
+        if (response.status !== 200) {
             return (response.status);
         }
         const data = await response.json();

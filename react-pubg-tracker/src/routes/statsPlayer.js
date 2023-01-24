@@ -9,75 +9,101 @@ function StatsPlayer() {
     const playerContext = useContext(PlayerContext);
     const navigate = useNavigate();
     if (playerContext.rankedStats.data && playerContext.playerName) {
-        return (
-            <Container mt={25}>
-                <Center>
-                    <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
-                        <Box p={7}>
-                            <Heading pl={5} pr={5} size='2xl'>Pubg Ranked:</Heading>
+        if (playerContext.rankedStats.data.attributes.rankedGameModeStats && playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier) {
+            return (
+                <Container mt={25}>
+                    <Center>
+                        <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
+                            <Box p={7}>
+                                <Heading pl={5} pr={5} size='2xl'>Pubg Ranked:</Heading>
+                                <Center>
+                                    <Heading size="xl" mt={10}>{playerContext.playerName}</Heading>
+                                </Center>
+                                <Center>
+                                    <Box boxSize='10rem'>
+                                        <Image src={"/images/" + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier + ".png"}></Image>
+                                    </Box>
+                                </Center>
+                                <Text fontSize='xl'>Rank:
+                                    <Text color='#c9760e' fontSize='xl' as='b'>&nbsp;&nbsp;&nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier} {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier}</Text>
+                                    &nbsp;&nbsp;
+                                    <Text fontSize='xl' as='b'>{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentRankPoint} RP</Text></Text>
+                                <Text fontSize='xl' mt={3}>Win:
+                                    &nbsp;{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].winRatio * 100).toFixed(2)}%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {playerContext.rankedStats.data.attributes.rankedGameModeStats['squad-fpp'].roundsPlayed} Games <Text color='#0089ef' fontSize='xl' as='b'>{playerContext.rankedStats.data.attributes.rankedGameModeStats['squad-fpp'].wins} Wins</Text></Text>
+                                <Text fontSize='xl' mt={3}>kills:
+                                    &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills}</Text>
+                                <Text fontSize='xl' mt={3}>deaths:
+                                    &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths}</Text>
+                                <Text fontSize='xl' mt={3}>K/D:
+                                    &nbsp;<Text color='#c9760e' fontSize='xl' as='b'>{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills /
+                                    playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths).toFixed(2)}</Text></Text>
+                                <Text fontSize='xl' mt={3}>Avg Damage:
+                                    &nbsp;<Text color='#c8311e' fontSize='xl' as='b'>{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].damageDealt /
+                                    playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].roundsPlayed).toFixed()}</Text></Text>
+                            </Box>
                             <Center>
-                                <Heading size="xl" mt={10}>{playerContext.playerName}</Heading>
+                                <Flex>
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    playerContext.setWeaponMastery([]);
+                                    API.getPlayerMasteryWeapon(playerContext.rankedStats.data.relationships.player.data.id, "steam", playerContext.playerName).then((data) => {
+                                    playerContext.setWeaponMastery(data);
+                                    });
+                                    navigate(`/user/weapon_mastery/${playerContext.playerName}`);
+                                }}>
+                                    <Button m={2} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
+                                </form>
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    navigate(`/`);
+                                }}>
+                                    <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
+                                </form>
+                                </Flex>
                             </Center>
-                            <Center>
-                                <Box boxSize='10rem'>
-                                    <Image src={"/images/" + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier + playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier + ".png"}></Image>
-                                </Box>
-                            </Center>
-                            <Text fontSize='xl'>Rank:
-                                <Text color='#c9760e' fontSize='xl' as='b'>&nbsp;&nbsp;&nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.tier} {playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentTier.subTier}</Text>
-                                &nbsp;&nbsp;
-                                <Text fontSize='xl' as='b'>{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].currentRankPoint} RP</Text></Text>
-                            <Text fontSize='xl' mt={3}>Win:
-                                &nbsp;{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].winRatio * 100).toFixed(2)}%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                {playerContext.rankedStats.data.attributes.rankedGameModeStats['squad-fpp'].roundsPlayed} Games <Text color='#0089ef' fontSize='xl' as='b'>{playerContext.rankedStats.data.attributes.rankedGameModeStats['squad-fpp'].wins} Wins</Text></Text>
-                            <Text fontSize='xl' mt={3}>kills:
-                                &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills}</Text>
-                            <Text fontSize='xl' mt={3}>deaths:
-                                &nbsp;{playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths}</Text>
-                            <Text fontSize='xl' mt={3}>K/D:
-                                &nbsp;<Text color='#c9760e' fontSize='xl' as='b'>{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].kills /
-                                playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].deaths).toFixed(2)}</Text></Text>
-                            <Text fontSize='xl' mt={3}>Avg Damage:
-                                &nbsp;<Text color='#c8311e' fontSize='xl' as='b'>{(playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].damageDealt /
-                                playerContext.rankedStats.data.attributes.rankedGameModeStats["squad-fpp"].roundsPlayed).toFixed()}</Text></Text>
                         </Box>
-                        <Center>
-                            <Flex>
-                            <form onSubmit={(e) => {
-                                e.preventDefault();
-                                playerContext.setWeaponMastery([]);
-                                API.getPlayerMasteryWeapon(playerContext.rankedStats.data.relationships.player.data.id, "steam", playerContext.playerName).then((data) => {
-                                playerContext.setWeaponMastery(data);
-                                });
-                                navigate(`/user/weapon_mastery/${playerContext.playerName}`);
-                            }}>
-                                <Button m={2} colorScheme='orange' size='md' type="submit">Weapon Mastery</Button>
-                            </form>
-                            <form onSubmit={(e) => {
-                                e.preventDefault();
-                                navigate(`/`);
-                            }}>
-                                <Button m={2} colorScheme='orange' size='md' type="submit">Home Page</Button>
-                            </form>
-                            </Flex>
-                        </Center>
-                    </Box>
-                </Center>
-            </Container>
-        );
+                    </Center>
+                </Container>
+            );
+        }
     }
-    else if (!playerContext.rankedStats.data && !playerContext.playerName) {
+    else if (!playerContext.rankedStats.data && !playerContext.playerName || (playerContext.rankedStats === 400)) {
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
                     <Heading pl={28} pb={5}>Pubg Stats Ranked:</Heading>
-                    <Heading size="md" mt={3}>{playerContext.playerName}</Heading>
-                    <Text fontSize='xl' mt={3}>Rank: No Data</Text>
-                    <Text fontSize='xl' mt={3}>Rating: No Data</Text>
-                    <Text fontSize='xl' mt={3}>win%: No Data</Text>
-                    <Text fontSize='xl' mt={3}>kills: No Data</Text>
-                    <Text fontSize='xl' mt={3}>deaths: No Data</Text>
-                    <Text fontSize='xl' mt={3} mb={3}>K/D: No Data</Text>
+                    <Heading size="xl" mt={5} mb={5}>{playerContext.playerName}</Heading>
+                    <Flex>
+                        <Text as='b' fontSize='xl' mt={3}>Rank: </Text>
+                        <Spacer />
+                        <Text p={4} fontSize='xl' as='b' color="red">No Data</Text>
+                    </Flex>
+                    <Flex>
+                        <Text as='b' fontSize='xl' mt={3}>Rating: </Text>
+                        <Spacer />
+                        <Text p={4} fontSize='xl' as='b' color="red">No Data</Text>
+                    </Flex>
+                    <Flex>
+                        <Text as='b' fontSize='xl' mt={3}>win%: </Text>
+                        <Spacer />
+                        <Text p={4} fontSize='xl' as='b' color="red">No Data</Text>
+                    </Flex>
+                    <Flex>
+                        <Text as='b' fontSize='xl' mt={3}>kills: </Text>
+                        <Spacer />
+                       <Text p={4} fontSize='xl' as='b' color="Red">No Data</Text>
+                    </Flex>
+                    <Flex>
+                        <Text as='b' fontSize='xl' mt={3}>deaths: </Text>
+                        <Spacer />
+                        <Text p={4} fontSize='xl' as='b' color="red">No Data</Text>
+                    </Flex>
+                    <Flex>
+                        <Text as='b' fontSize='xl' mt={3} mb={3}>K/D: </Text>
+                        <Spacer />
+                        <Text p={4} fontSize='xl' as='b' color="red">No Data</Text>
+                    </Flex>
                     <Center>
                         <form onSubmit={(e) => {
                             e.preventDefault();
@@ -100,7 +126,7 @@ function StatsPlayer() {
                     </Center>
                     <Flex>
                         <Center>
-                            <Text fontSize='xl' mt={3}>Rank: Too many request!</Text>
+                            <Text as='b' fontSize='xl' mt={3}>Rank: Too many request!</Text>
                         </Center>
                         <Spacer />
                         <Center>
@@ -109,7 +135,7 @@ function StatsPlayer() {
                     </Flex>
                     <Flex>
                         <Center>
-                            <Text fontSize='xl' mt={3}>Rating: Too many request!  </Text>
+                            <Text as='b' fontSize='xl' mt={3}>Rating: Too many request!  </Text>
                         </Center>
                         <Spacer />
                         <Center>
@@ -118,7 +144,7 @@ function StatsPlayer() {
                     </Flex>
                     <Flex>
                         <Center>
-                            <Text fontSize='xl' mt={3}>win%: Too many request!</Text>
+                            <Text as='b' fontSize='xl' mt={3}>win%: Too many request!</Text>
                         </Center>
                         <Spacer />
                         <Center>
@@ -127,7 +153,7 @@ function StatsPlayer() {
                     </Flex>
                     <Flex>
                         <Center>
-                            <Text fontSize='xl' mt={3}>kills: Too many request!</Text>
+                            <Text as='b' fontSize='xl' mt={3}>kills: Too many request!</Text>
                         </Center>
                         <Spacer />
                         <Center>
@@ -136,7 +162,7 @@ function StatsPlayer() {
                     </Flex>
                     <Flex>
                         <Center>
-                            <Text fontSize='xl' mt={3}>deaths: Too many request!</Text>
+                            <Text as='b' fontSize='xl' mt={3}>deaths: Too many request!</Text>
                         </Center>
                         <Spacer />
                         <Center>
@@ -145,7 +171,7 @@ function StatsPlayer() {
                     </Flex>
                     <Flex>
                         <Center>
-                            <Text fontSize='xl' mt={3} mb={3}>K/D: Too many request!</Text>
+                            <Text as='b' fontSize='xl' mt={3} mb={3}>K/D: Too many request!</Text>
                         </Center>
                         <Spacer />
                         <Center>
