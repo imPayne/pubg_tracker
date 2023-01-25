@@ -1,9 +1,9 @@
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from '../App';
 import StatsPlayer from '../routes/statsPlayer';
 import { PlayerProvider } from './playerContext';
-import Weapon_mastery from '../routes/weapon_mastery';
+import WeaponMastery from '../routes/weapon_mastery';
 
 export const AppContext = createContext(null)
 
@@ -12,7 +12,7 @@ export function AppProvider() {
   const router = createBrowserRouter([
     {
         path: `/user/weapon_mastery/:playerName`,
-        element: <Weapon_mastery />
+        element: <WeaponMastery />
     },
     {
       path: '/user/:playerName',

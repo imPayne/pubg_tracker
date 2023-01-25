@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { PlayerContext } from '../context/playerContext';
-import { useContext, useState, useEffect } from 'react'
-import { Spacer, Link, Center, Flex, Input, Button, Heading, Box, Container, Text, SliderProvider, Image, Spinner } from '@chakra-ui/react'
+import { useContext } from 'react'
+import { Spacer, Center, Flex, Button, Heading, Box, Container, Text, Image, Spinner } from '@chakra-ui/react'
 
-function Weapon_mastery() {
+function WeaponMastery() {
     const navigate = useNavigate();
     const playerContext = useContext(PlayerContext);
-    if (playerContext.weaponMastery.length === 0 && playerContext.weaponMastery !== 429 || (playerContext.weaponMastery !== 429 && playerContext.weaponMastery.length != 0)) {
+    if ((playerContext.weaponMastery.length === 0 && playerContext.weaponMastery !== 429) || (playerContext.weaponMastery !== 429 && playerContext.weaponMastery.length !== 0)) {
         
     }
     if (playerContext.weaponMastery.data && playerContext.playerName && playerContext.weaponMastery !== 429) {
@@ -132,4 +132,4 @@ function Weapon_mastery() {
     }
 }
 
-export default Weapon_mastery;
+export default WeaponMastery;

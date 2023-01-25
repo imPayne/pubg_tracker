@@ -1,0 +1,3 @@
+Le but de l'application est de créer un site siteweb permettant d'accéder à des données de jeux depuis l'API du jeu.
+Pour cela j'ai utiliser l'API de pubg qui est jeu battleroyale multijoueur. Le but est donc concrétement 
+de récupérer des données de jeux des partis jouer par un joueur.

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { PlayerContext } from '../context/playerContext';
 import { useContext } from 'react';
 import { Center, Flex, Button, Heading, Box, Container, Text, Image, Spinner, Spacer } from '@chakra-ui/react';
-import { PhoneIcon, AddIcon, WarningIcon, MoonIcon, LockIcon } from '@chakra-ui/icons';
+import { LockIcon } from '@chakra-ui/icons';
 import API from "../API/pubgApiRequest";
 
 function StatsPlayer() {
@@ -68,7 +68,7 @@ function StatsPlayer() {
             );
         }
     }
-    else if (!playerContext.rankedStats.data && !playerContext.playerName || (playerContext.rankedStats === 400)) {
+    else if ((!playerContext.rankedStats.data && !playerContext.playerName) || (playerContext.rankedStats === 400)) {
         return (
             <Container mt={25}>
                 <Box mt={5} p={7} borderRadius={7} backgroundColor='#F0F0F0'>
